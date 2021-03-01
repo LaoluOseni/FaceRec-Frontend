@@ -64,12 +64,6 @@ class App extends Component {
 
   }
 
-  componentDidMount() {
-    fetch('http://localhost:3000')
-    .then(response => response.json())
-    .then(console.log)
-  }
-
   calculateFaceLocation = (data) => {
     const clarifaiFace = data.outputs[0].data.regions[0].region_info.bounding_box;
     const image = document.getElementById('inputimage');
@@ -118,13 +112,13 @@ class App extends Component {
         <Logo /> 
         { this.state.route === 'home'
         ? <div>           
-          <Rank />
+          <Rank name={this.state.user.name} entries={this.state.user.entries} />
           <ImageLinkForm onInputChange={this.onInputChange} onButtonSubmit={this.onButtonSubmit}/>
           <FaceRecognition box={this.state.box} imageURL={this.state.imageURL} />
         </div> 
         : (
           this.state.route === 'signin'
-          ? <SignIn onRouteChange={this.onRouteChange} />
+          ? <SignIn loadUser={this.loadUser} onRouteChange={this.onRouteChange} />
           : <Register loadUser={this.loadUser} onRouteChange={this.onRouteChange} />
         ) 
         }

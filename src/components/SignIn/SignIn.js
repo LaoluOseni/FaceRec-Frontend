@@ -16,6 +16,7 @@ class SignIn extends React.Component {
         this.setState({signInPassword: event.target.value})
     }
     onSubmitSignIn = () => {
+        console.log('hello')
         fetch('http://localhost:3000/signin', {
             method: 'post',
             headers: {'Content-Type': 'application/json'},
@@ -25,9 +26,10 @@ class SignIn extends React.Component {
             })
         })
         .then(response => response.json())
-        .then(data => {
-            if (data === 'Success') {
-                this.props.onRouteChange('register')
+        .then(user => {
+            if (user.id) {
+                this.props.loadUser(user);
+                this.props.onRouteChange('home');
             }
         })
     }
@@ -52,10 +54,10 @@ class SignIn extends React.Component {
                         </div>
                     </fieldset>
                     <div className="">
-                        <input onClick={() => onRouteChange('home')} className="b ph3 pv2 input-reset ba b--black bg-transparent grow pointer f6 dib" type="submit" value="Sign in" />
+                        <input onClick={this.onSubmitSignIn} className="b ph3 pv2 input-reset ba b--black bg-transparent grow pointer f6 dib" type="submit" value="Sign in" />
                     </div>
                     <div className="lh-copy mt3">
-                        <p onClick={this.onSubmitSignIn} className="f6 link dim black db pointer">Register</p>
+                        <p onClick={() => onRouteChange('register')} className="f6 link dim black db pointer">Register</p>
                     </div>
                 </form>
             </main>

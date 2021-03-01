@@ -32,13 +32,12 @@ class Register extends React.Component {
         .then(user => {
             if (user) {
                 this.props.loadUser('user');
-                this.props.onRouteChange('register');
+                this.props.onRouteChange('home');
             }
         })
     }
 
     render() {
-        const { onRouteChange } = this.props;
         return(
             <article className="br2 ba dark-gray b--black-10 mv4 w-100 w-50-m w-25-l mw5 center">
                 <main className="pa4 black-80">
@@ -61,7 +60,7 @@ class Register extends React.Component {
                            onClick={this.onPasswordChange} />
                         </div>
                         <div className="">
-                        <input onClick={() => onRouteChange('home')} className="b ph3 pv2 input-reset ba b--black bg-transparent grow pointer f6 dib" type="submit" value="Register" />
+                        <input onClick={this.onSubmitSignIn} className="b ph3 pv2 input-reset ba b--black bg-transparent grow pointer f6 dib" type="submit" value="Register" />
                     </div>
                     </fieldset>
                 </form>
