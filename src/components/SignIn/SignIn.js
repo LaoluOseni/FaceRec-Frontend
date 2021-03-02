@@ -5,18 +5,17 @@ class SignIn extends React.Component {
         super(props);
         this.state = {
             signInEmail: '',
-            signInPassword: '',
+            signInPassword: ''
         }
     }
 
     onEmailChange = (event) => {
-        this.setState({signInEmail: event.target.value}) 
+        this.setState({signInEmail: event.target.value})
     }
     onPasswordChange = (event) => {
         this.setState({signInPassword: event.target.value})
     }
     onSubmitSignIn = () => {
-        console.log('hello')
         fetch('http://localhost:3000/signin', {
             method: 'post',
             headers: {'Content-Type': 'application/json'},
@@ -24,8 +23,7 @@ class SignIn extends React.Component {
                 email: this.state.signInEmail,
                 password: this.state.signInPassword
             })
-        })
-        .then(response => response.json())
+        }).then(response => response.json())
         .then(user => {
             if (user.id) {
                 this.props.loadUser(user);
