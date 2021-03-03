@@ -37,7 +37,7 @@ const initialState = {
   input: '',
   imageUrl: '',
   box: {},
-  route: 'signout',
+  route: 'signin',
   isSignedIn: false,
   user: {
     id: '',
@@ -55,6 +55,7 @@ class App extends Component {
   }
 
   loadUser = (data) => {
+    console.log(data);
     this.setState({user: {
       id: data.id,
       name: data.name,
@@ -97,13 +98,13 @@ class App extends Component {
   }
 
   onRouteChange = (route) => {
-    if (route === 'signout') {
-      this.setState(initialState)
-    } else if(route === 'home') {
-      this.setState({isSignedIn: true})
-    }
-    this.setState({route: route});
-    console.log(route);
+   if (route === 'signout') {
+       this.setState(initialState)
+     } else if(route === 'home') {
+       this.setState({isSignedIn: true})
+     }
+     this.setState({route: route});
+     console.log(route);
   }
 
   render() {

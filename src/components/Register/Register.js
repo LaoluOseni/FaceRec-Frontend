@@ -10,7 +10,6 @@ class Register extends React.Component {
         }
     }
     onNameChange = (event) => {
-        console.log(event.target.value);
         this.setState({name: event.target.value})
     }
     onEmailChange = (event) => {
@@ -32,6 +31,7 @@ class Register extends React.Component {
         .then(response => response.json())
         .then(user => {
             if (user) {
+                console.log(user);
                 this.props.loadUser('user');
                 this.props.onRouteChange('home');
             }
