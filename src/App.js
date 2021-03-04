@@ -6,13 +6,9 @@ import Rank from './components/rank/Rank';
 import FaceRecognition from './components/facerecognition/FaceRecognition';
 import Particles from 'react-particles-js';
 import './App.css';
-import Clarifai from 'clarifai';
 import SignIn from './components/SignIn/SignIn';
 import Register from './components/Register/Register';
 
-const app = new Clarifai.App({
-  apiKey: '517997cb8ff044d8bcdfcb32c22c9422'
-});
 
 const particleOptions = {
   particles: {
@@ -55,7 +51,6 @@ class App extends Component {
   }
 
   loadUser = (data) => {
-    console.log(data);
     this.setState({user: {
       id: data.id,
       name: data.name,
@@ -84,7 +79,6 @@ class App extends Component {
 
   displayFaceBox = (box) => {
     this.setState({box: box});
-    console.log(box.bottomRow);
   }
 
   onInputChange = (event) => {
@@ -93,8 +87,32 @@ class App extends Component {
 
   onButtonSubmit = () => {
     this.setState({imageURL: this.state.input})
-    app.models.predict(Clarifai.FACE_DETECT_MODEL, this.state.input).then(response => this.displayFaceBox(this.calculateFaceLocation(response)))
-    .catch(err => console.log(err));  
+    fetch('http://localhost:3000/imageurl', {
+      method: 'post',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({
+        input: this.state.input
+      })
+    })
+    .then(response => response.json())
+    .then(response => {
+      if (response) {
+        fetch('http://localhost:3000/image', {
+          method: 'put',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({
+            id: this.state.user.id
+          })
+        })
+        .then(response => response.json())
+        .then(count => {
+          this.setState(Object.assign(this.state.user, { entries: count }))
+        })
+        .catch(console.log)
+      }
+      this.displayFaceBox(this.calculateFaceLocation(response))
+    })
+     .catch(err => console.log(err));
   }
 
   onRouteChange = (route) => {
@@ -104,7 +122,6 @@ class App extends Component {
        this.setState({isSignedIn: true})
      }
      this.setState({route: route});
-     console.log(route);
   }
 
   render() {
