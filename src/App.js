@@ -31,7 +31,7 @@ const particleOptions = {
 
 const initialState = {
   input: '',
-  imageUrl: '',
+  imageURL: '',
   box: {},
   route: 'signin',
   isSignedIn: false,
